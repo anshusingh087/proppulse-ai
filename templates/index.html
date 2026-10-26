@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropPulse AI | Bangalore Real Estate Valuation Engine</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <header class="top-nav">
+        <div class="brand">
+            <span class="logo-box">🏢</span>
+            <div>
+                <h3>PropPulse AI</h3>
+                <small>Bangalore Housing Valuation Engine</small>
+            </div>
+        </div>
+        <div class="market-ticker">
+            <span class="ticker-item">Bengaluru Index: <strong>Rs. 8,940/sqft</strong> <span class="trend-up">▲ 1.4%</span></span>
+            <span class="ticker-item">Repo Rate: <strong>6.50%</strong></span>
+            <span class="status-indicator"><span class="pulse"></span> LIVE API FEED</span>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="dashboard-container">
+        
+        <!-- Left Panel: Property Input Form -->
+        <section class="panel form-panel">
+            <div class="panel-header">
+                <h4>Property Specifications</h4>
+                <p>Provide structural and locality attributes</p>
+            </div>
+
+            <form id="prop-form">
+                <div class="input-group">
+                    <label>Locality / Micro-Market</label>
+                    <select id="location">
+                        {% for loc in localities %}
+                            <option value="{{ loc }}">{{ loc }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Super Built-up Area (Sq. Ft)</label>
+                    <input type="number" id="sqft" value="1350" min="300" max="10000" required>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Bedrooms (BHK)</label>
+                        <select id="bhk">
+                            <option value="1">1 BHK</option>
+                            <option value="2" selected>2 BHK</option>
+                            <option value="3">3 BHK</option>
+                            <option value="4">4 BHK</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Bathrooms</label>
+                        <select id="bath">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Furnishing Status</label>
+                    <select id="furnishing">
+                        <option value="Unfurnished">Unfurnished</option>
+                        <option value="Semi-Furnished" selected>Semi-Furnished</option>
+                        <option value="Fully-Furnished">Fully-Furnished</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submit-btn" class="glow-button">Generate Valuation Analytics</button>
+            </form>
+
+            <!-- Search History Section -->
+            <div class="history-section">
+                <h5>Recent Valuations</h5>
+                <div id="history-feed" class="history-feed"></div>
+            </div>
+        </section>
+
+        <!-- Right Panel: Analytics & Metrics Display -->
+        <section class="panel analytics-panel">
+            <div id="initial-state" class="empty-state">
+                <div class="empty-icon">📊</div>
+                <h3>Awaiting Analysis</h3>
+                <p>Click "Generate Valuation Analytics" to calculate current valuation, financial splits, and locality yields.</p>
+            </div>
+
+            <div id="analytics-content" class="analytics-content hidden">
+                
+                <!-- Primary Valuation Cards -->
+                <div class="metrics-row">
+                    <div class="metric-card hero-metric">
+                        <span class="metric-title">Estimated Market Value</span>
+                        <h2 id="out-price">--</h2>
+                        <span class="badge" id="out-tag">Prime Hub</span>
+                    </div>
+
+                    <div class="metric-card">
+                        <span class="metric-title">Expected Rent</span>
+                        <h3 id="out-rent" class="text-green">--</h3>
+                        <small>Yield: <strong id="out-yield">--</strong> / yr</small>
+                    </div>
+
+                    <div class="metric-card">
+                        <span class="metric-title">Monthly EMI (8.5%)</span>
+                        <h3 id="out-emi" class="text-yellow">--</h3>
+                        <small>20-Yr Tenure (80% LTV)</small>
+                    </div>
+                </div>
+
+                <!-- Locality Scores Bar -->
+                <div class="locality-insights">
+                    <div class="insight-box">
+                        <small>Market Benchmark</small>
+                        <strong id="out-rate">--</strong>
+                    </div>
+                    <div class="insight-box">
+                        <small>Transit & Metro</small>
+                        <strong id="out-metro">--</strong>
+                    </div>
+                    <div class="insight-box">
+                        <small>Annual Capital Growth</small>
+                        <strong id="out-growth" class="text-green">--</strong>
+                    </div>
+                </div>
+
+                <!-- Chart Canvas Container -->
+                <div class="chart-container-box">
+                    <div class="chart-header">
+                        <h4>Capital Financing Breakdown</h4>
+                        <small>Principal vs Cumulative Interest Payable</small>
+                    </div>
+                    <div class="chart-canvas-wrapper">
+                        <canvas id="loanChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
