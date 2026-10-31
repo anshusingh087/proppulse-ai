@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropPulse AI — Real-Time Valuation Engine</title>
-    <!-- Chart.js & Google Fonts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <title>PropPulse AI — Real Estate Market Valuation & Index Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-base: #090d16;
-            --card-bg: rgba(16, 23, 41, 0.85);
-            --border-glow: rgba(56, 189, 248, 0.25);
+            --bg-base: #080c14;
+            --panel-bg: rgba(15, 23, 42, 0.92);
+            --border-glow: rgba(56, 189, 248, 0.22);
             --accent-cyan: #38bdf8;
-            --accent-emerald: #10b981;
-            --accent-orange: #f59e0b;
-            --accent-rose: #f43f5e;
-            --text-main: #f1f5f9;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
 
@@ -31,15 +28,15 @@
         body {
             background-color: var(--bg-base);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.08) 0px, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.06) 0px, transparent 45%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 24px;
+            padding: 24px 16px;
         }
 
         .container {
-            max-width: 1280px;
+            max-width: 1240px;
             margin: 0 auto;
         }
 
@@ -48,185 +45,213 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 28px;
-        }
-
-        .logo-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .pulse-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--accent-emerald);
-            border-radius: 50%;
-            box-shadow: 0 0 12px var(--accent-emerald);
-            animation: pulse-ring 1.8s infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% { transform: scale(0.9); opacity: 0.8; }
-            50% { transform: scale(1.4); opacity: 0.3; }
-            100% { transform: scale(0.9); opacity: 0.8; }
-        }
-
-        .badge-live {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--accent-emerald);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Grid Layout */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 420px 1fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 980px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Cards */
-        .glass-panel {
-            background: var(--card-bg);
+            padding: 18px 24px;
+            background: var(--panel-bg);
             border: 1px solid var(--border-glow);
-            border-radius: 20px;
-            padding: 24px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .section-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Controls */
-        .control-group {
-            margin-bottom: 20px;
-        }
-
-        .control-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-        }
-
-        .value-badge {
-            color: var(--accent-cyan);
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-        }
-
-        select, input[type="range"] {
-            width: 100%;
-        }
-
-        select {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            padding: 12px 14px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        input[type="range"] {
-            accent-color: var(--accent-cyan);
-            height: 6px;
-            background: #1e293b;
-            border-radius: 4px;
-            outline: none;
-            cursor: pointer;
-        }
-
-        /* Stats Cards */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            border-radius: 16px;
             margin-bottom: 24px;
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 18px;
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(56, 189, 248, 0.4);
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-        }
-
-        .stat-value {
-            font-size: 1.45rem;
+        .brand-title {
+            font-size: 1.35rem;
             font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-title span {
+            color: var(--accent-cyan);
+        }
+
+        .market-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-family: 'JetBrains Mono', monospace;
-            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-green);
         }
 
-        /* Visuals Split */
-        .charts-container {
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        /* Layout Grid */
+        .workspace-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 380px 1fr;
+            gap: 24px;
         }
 
-        @media (max-width: 768px) {
-            .stats-row, .charts-container {
+        @media (max-width: 950px) {
+            .workspace-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .chart-box {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
+        .glass-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
-        .gauge-center-text {
+        .panel-heading {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            background: #0b1324;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-predict {
+            width: 100%;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            border: none;
+            color: #04121d;
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
+        }
+
+        /* Canvas Chart Screen */
+        .chart-screen {
+            background: #060b13;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+            margin-bottom: 20px;
+        }
+
+        /* Financial Grid Background */
+        .chart-screen::before {
+            content: "";
             position: absolute;
-            top: 58%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+            inset: 0;
+            background-size: 30px 30px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            pointer-events: none;
+        }
+
+        canvas#marketCanvas {
+            display: block;
+            width: 100%;
+            height: 230px;
+        }
+
+        .chart-overlay-stats {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: right;
+            pointer-events: none;
+        }
+
+        .ticker-tag {
+            font-size: 0.72rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .ticker-rate {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            line-height: 1.1;
+        }
+
+        /* Metrics Row */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .metrics-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .metric-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .metric-val {
+            font-size: 1.45rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
         }
     </style>
 </head>
@@ -235,139 +260,91 @@
 <div class="container">
     <!-- Header -->
     <header>
-        <div class="logo-box">
-            <div class="pulse-dot"></div>
-            <div>
-                <h1 style="font-size: 1.45rem; font-weight: 800; letter-spacing: -0.02em;">PropPulse <span style="color: var(--accent-cyan);">AI</span></h1>
-                <p style="font-size: 0.82rem; color: var(--text-muted);">Real-Time Bangalore Housing Intelligence & Valuation Engine</p>
-            </div>
+        <div>
+            <div class="brand-title">PropPulse <span>AI</span></div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Bangalore Real Estate Market Valuation & Momentum Engine</div>
         </div>
-        <div class="badge-live">
-            <span style="display:inline-block; width:8px; height:8px; background:var(--accent-emerald); border-radius:50%;"></span>
-            LIVE MODEL INFERENCE
+        <div class="market-status">
+            <div class="live-dot"></div>
+            <span>LIVE MARKET FEED</span>
         </div>
     </header>
 
-    <!-- Main Grid -->
-    <div class="dashboard-grid">
-        <!-- Control Sidebar -->
+    <div class="workspace-grid">
+        <!-- Input Form -->
         <div class="glass-panel">
-            <div class="section-title">
-                <span>Property Parameters</span>
-                <span style="font-size: 0.78rem; color: var(--accent-cyan); font-family: monospace;">REAL-TIME SYNC</span>
+            <div class="panel-heading">
+                <span>Property Inputs</span>
+                <span style="font-size: 0.75rem; color: var(--accent-cyan); font-family: monospace;">ML REGRESSION</span>
             </div>
 
-            <!-- Locality Select -->
-            <div class="control-group">
-                <div class="control-header">
-                    <span>Target Micro-Market</span>
-                </div>
-                <select id="localitySelect">
-                    <option value="Whitefield" data-rate="9800" selected>Whitefield (Tech Hub)</option>
-                    <option value="Indiranagar" data-rate="16500">Indiranagar (Premium)</option>
-                    <option value="Koramangala" data-rate="15200">Koramangala (Commercial Core)</option>
-                    <option value="HSR Layout" data-rate="12800">HSR Layout (Startup Belt)</option>
-                    <option value="Electronic City" data-rate="6400">Electronic City (IT Corridor)</option>
-                    <option value="Hebbal" data-rate="11200">Hebbal (Airport Expressway)</option>
+            <div class="form-group">
+                <label>Micro-Market Locality</label>
+                <select id="localitySelect" class="form-select">
+                    <option value="Whitefield" data-rate="9800" selected>Whitefield (Tech Corridor)</option>
+                    <option value="Indiranagar" data-rate="16500">Indiranagar (Prime Commercial)</option>
+                    <option value="Koramangala" data-rate="15200">Koramangala (Startup Hub)</option>
+                    <option value="HSR Layout" data-rate="12800">HSR Layout (Residential Hub)</option>
+                    <option value="Electronic City" data-rate="6400">Electronic City (IT Belt)</option>
+                    <option value="Hebbal" data-rate="11200">Hebbal (Airport Corridor)</option>
                 </select>
             </div>
 
-            <!-- Area Slider -->
-            <div class="control-group">
-                <div class="control-header">
-                    <span>Super Built-up Area</span>
-                    <span class="value-badge" id="areaDisplay">1,450 Sq. Ft</span>
-                </div>
-                <input type="range" id="areaSlider" min="500" max="5000" step="50" value="1450">
+            <div class="form-group">
+                <label>Super Built-Up Area (Sq. Ft)</label>
+                <input type="number" id="areaInput" class="form-input" value="1450" min="400" max="10000" step="50">
             </div>
 
-            <!-- BHK Slider -->
-            <div class="control-group">
-                <div class="control-header">
-                    <span>Bedrooms (BHK)</span>
-                    <span class="value-badge" id="bhkDisplay">3 BHK</span>
-                </div>
-                <input type="range" id="bhkSlider" min="1" max="5" step="1" value="3">
+            <div class="form-group">
+                <label>Bedrooms (BHK)</label>
+                <select id="bhkSelect" class="form-select">
+                    <option value="1">1 BHK Apartment</option>
+                    <option value="2">2 BHK Residential</option>
+                    <option value="3" selected>3 BHK Luxury Flat</option>
+                    <option value="4">4 BHK Penthouse / Villa</option>
+                </select>
             </div>
 
-            <!-- Bathrooms Slider -->
-            <div class="control-group">
-                <div class="control-header">
-                    <span>Bathrooms</span>
-                    <span class="value-badge" id="bathDisplay">2 Baths</span>
-                </div>
-                <input type="range" id="bathSlider" min="1" max="5" step="1" value="2">
+            <div class="form-group">
+                <label>Down Payment (%)</label>
+                <input type="number" id="downpaymentInput" class="form-input" value="20" min="10" max="60" step="5">
             </div>
 
-            <!-- Loan / Downpayment Slider -->
-            <div class="control-group">
-                <div class="control-header">
-                    <span>Financing: Down Payment %</span>
-                    <span class="value-badge" id="downpaymentDisplay">20%</span>
-                </div>
-                <input type="range" id="downpaymentSlider" min="10" max="50" step="5" value="20">
-            </div>
-
-            <div style="background: rgba(56, 189, 248, 0.08); border-radius: 12px; padding: 14px; border: 1px dashed rgba(56, 189, 248, 0.3); font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-                ⚡ <strong>Interactive Mode Active:</strong> Drag sliders above to test live dynamic regression response, loan metrics, and projected valuation curve.
-            </div>
+            <button class="btn-predict" onclick="runPricePrediction()">
+                <span>⚡ Calculate Market Valuation</span>
+            </button>
         </div>
 
-        <!-- Analytics Output View -->
+        <!-- Right Side: Live Price Trend Canvas & Outputs -->
         <div class="glass-panel">
-            <!-- 3 Headline Stats -->
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-label">Estimated Market Value</div>
-                    <div class="stat-value" id="totalValueDisplay" style="color: var(--accent-cyan);">₹ 1.42 Cr</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Monthly EMI (8.5% / 20y)</div>
-                    <div class="stat-value" id="emiDisplay" style="color: var(--accent-orange);">₹ 98,600</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Projected 5Y Appreciation</div>
-                    <div class="stat-value" id="growthDisplay" style="color: var(--accent-emerald);">+ 48.2%</div>
+            <div class="panel-heading">
+                <span>Real-Time Market Rate Volatility & Price Momentum</span>
+                <span style="color: var(--accent-cyan); font-family: monospace; font-size: 0.8rem;">FEED: BENGALURU-RES</span>
+            </div>
+
+            <!-- Canvas Screen -->
+            <div class="chart-screen">
+                <canvas id="marketCanvas"></canvas>
+                <div class="chart-overlay-stats">
+                    <div class="ticker-tag" id="locTag">Whitefield Avg / Sqft</div>
+                    <div class="ticker-rate" id="currentRateDisplay">₹ 9,800</div>
+                    <div style="font-size: 0.72rem; color: var(--accent-green);" id="trendTag">▲ +12.4% Annualized Momentum</div>
                 </div>
             </div>
 
-            <!-- Charts Split -->
-            <div class="charts-container">
-                <!-- 1. Pulse Curve (Line Heartbeat / Growth curve) -->
-                <div class="chart-box">
-                    <div class="section-title" style="margin-bottom: 10px; font-size: 0.95rem;">
-                        <span>10-Year Valuation Pulse</span>
-                        <span style="font-size: 0.75rem; color: var(--accent-emerald);">ECG GROWTH MODE</span>
-                    </div>
-                    <div style="height: 220px;">
-                        <canvas id="pulseLineChart"></canvas>
-                    </div>
+            <!-- 3 Core Outputs -->
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <div class="metric-title">Estimated Market Value</div>
+                    <div class="metric-val" id="dispVal" style="color: var(--accent-cyan);">₹ 1.49 Cr</div>
                 </div>
-
-                <!-- 2. AI Investment Risk Gauge (Half Donut / Speedometer) -->
-                <div class="chart-box">
-                    <div class="section-title" style="margin-bottom: 10px; font-size: 0.95rem;">
-                        <span>Investment Viability Gauge</span>
-                        <span style="font-size: 0.75rem; color: var(--accent-orange);">ML CONFIDENCE</span>
-                    </div>
-                    <div style="height: 220px; position: relative;">
-                        <canvas id="gaugeChart"></canvas>
-                        <div class="gauge-center-text">
-                            <div id="gaugeScore" style="font-size: 1.6rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--accent-emerald);">8.7</div>
-                            <div id="gaugeLabel" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Optimal Buy</div>
-                        </div>
-                    </div>
+                <div class="metric-card">
+                    <div class="metric-title">Monthly EMI (8.5% / 20Y)</div>
+                    <div class="metric-val" id="dispEMI" style="color: var(--accent-amber);">₹ 94,800</div>
                 </div>
-            </div>
-
-            <!-- Capital Financing Breakdown -->
-            <div class="chart-box" style="margin-top: 20px;">
-                <div class="section-title" style="margin-bottom: 6px; font-size: 0.95rem;">
-                    <span>Financing Capital Split (Principal vs Bank Interest)</span>
-                    <span id="loanSplitTag" style="font-size: 0.78rem; font-family: monospace; color: var(--accent-cyan);">80% Loan / 20% Self</span>
-                </div>
-                <div style="height: 120px;">
-                    <canvas id="financingBarChart"></canvas>
+                <div class="metric-card">
+                    <div class="metric-title">Projected 5Y Value</div>
+                    <div class="metric-val" id="disp5Y" style="color: var(--accent-green);">₹ 2.22 Cr</div>
                 </div>
             </div>
         </div>
@@ -375,213 +352,95 @@
 </div>
 
 <script>
-    // Elements
-    const localitySelect = document.getElementById('localitySelect');
-    const areaSlider = document.getElementById('areaSlider');
-    const bhkSlider = document.getElementById('bhkSlider');
-    const bathSlider = document.getElementById('bathSlider');
-    const downpaymentSlider = document.getElementById('downpaymentSlider');
+    const canvas = document.getElementById('marketCanvas');
+    const ctx = canvas.getContext('2d');
 
-    const areaDisplay = document.getElementById('areaDisplay');
-    const bhkDisplay = document.getElementById('bhkDisplay');
-    const bathDisplay = document.getElementById('bathDisplay');
-    const downpaymentDisplay = document.getElementById('downpaymentDisplay');
+    function resizeCanvas() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 230;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    const totalValueDisplay = document.getElementById('totalValueDisplay');
-    const emiDisplay = document.getElementById('emiDisplay');
-    const growthDisplay = document.getElementById('growthDisplay');
-    const gaugeScore = document.getElementById('gaugeScore');
-    const gaugeLabel = document.getElementById('gaugeLabel');
-    const loanSplitTag = document.getElementById('loanSplitTag');
+    // Live Financial Ticker State
+    let x = 0;
+    const step = 2;
+    let baseRate = 9800;
+    let currentY = 115;
+    let targetY = 115;
 
-    let pulseChart, gaugeChartInstance, financingChart;
+    // Continuous Financial Trend Wave
+    function drawMarketWave() {
+        // Erase ahead (radar/scanner wipe effect)
+        ctx.fillStyle = '#060b13';
+        ctx.fillRect(x + 1, 0, 14, canvas.height);
 
-    // Currency Formatter
-    function formatINR(val) {
-        if (val >= 10000000) {
-            return "₹ " + (val / 10000000).toFixed(2) + " Cr";
-        } else if (val >= 100000) {
-            return "₹ " + (val / 100000).toFixed(2) + " Lac";
+        // Random financial fluctuation simulation
+        if (Math.random() < 0.08) {
+            targetY = 115 + (Math.random() * 80 - 40);
         }
-        return "₹ " + Math.round(val).toLocaleString('en-IN');
+        currentY += (targetY - currentY) * 0.1;
+
+        // Draw Line Segment
+        ctx.beginPath();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 8;
+        ctx.moveTo(x, currentY);
+        ctx.lineTo(x + step, currentY);
+        ctx.stroke();
+
+        x += step;
+        if (x >= canvas.width) {
+            x = 0;
+        }
+
+        requestAnimationFrame(drawMarketWave);
     }
 
-    // Initialize Charts
-    function initCharts() {
-        // 1. Pulse Line Chart (ECG style appreciation)
-        const ctxPulse = document.getElementById('pulseLineChart').getContext('2d');
-        const gradient = ctxPulse.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.45)');
-        gradient.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
-
-        pulseChart = new Chart(ctxPulse, {
-            type: 'line',
-            data: {
-                labels: ['Now', '2Y', '4Y', '6Y', '8Y', '10Y'],
-                datasets: [{
-                    label: 'Valuation Trajectory',
-                    data: [100, 118, 142, 172, 210, 255],
-                    borderColor: '#38bdf8',
-                    borderWidth: 3,
-                    backgroundColor: gradient,
-                    fill: true,
-                    tension: 0.45,
-                    pointBackgroundColor: '#fff',
-                    pointBorderColor: '#38bdf8',
-                    pointRadius: 4,
-                    pointHoverRadius: 7
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: { duration: 400 },
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748b' } },
-                    y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748b' } }
-                }
-            }
-        });
-
-        // 2. Speedometer Gauge Chart (Half Doughnut)
-        const ctxGauge = document.getElementById('gaugeChart').getContext('2d');
-        gaugeChartInstance = new Chart(ctxGauge, {
-            type: 'doughnut',
-            data: {
-                labels: ['Score', 'Remaining'],
-                datasets: [{
-                    data: [85, 15],
-                    backgroundColor: ['#10b981', 'rgba(255,255,255,0.08)'],
-                    borderWidth: 0,
-                    circumference: 180,
-                    rotation: 270
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '78%',
-                animation: { duration: 400 },
-                plugins: { legend: { display: false }, tooltip: { enabled: false } }
-            }
-        });
-
-        // 3. Financing Horizontal Stacked Bar
-        const ctxFin = document.getElementById('financingBarChart').getContext('2d');
-        financingChart = new Chart(ctxFin, {
-            type: 'bar',
-            data: {
-                labels: ['Capital Breakdown'],
-                datasets: [
-                    { label: 'Down Payment', data: [20], backgroundColor: '#10b981', borderRadius: 6 },
-                    { label: 'Bank Principal', data: [80], backgroundColor: '#38bdf8', borderRadius: 6 },
-                    { label: 'Est. 20Y Interest', data: [85], backgroundColor: '#f59e0b', borderRadius: 6 }
-                ]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: { duration: 400 },
-                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } },
-                scales: {
-                    x: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#64748b' } },
-                    y: { stacked: true, display: false }
-                }
-            }
-        });
-    }
-
-    // Dynamic Calculation Engine
-    function recalculate() {
-        const area = parseInt(areaSlider.value);
-        const bhk = parseInt(bhkSlider.value);
-        const baths = parseInt(bathSlider.value);
-        const downPercent = parseInt(downpaymentSlider.value);
-        const baseRate = parseInt(localitySelect.options[localitySelect.selectedIndex].getAttribute('data-rate'));
-
-        // Update Labels
-        areaDisplay.innerText = area.toLocaleString() + " Sq. Ft";
-        bhkDisplay.innerText = bhk + " BHK";
-        bathDisplay.innerText = baths + (baths > 1 ? " Baths" : " Bath");
-        downpaymentDisplay.innerText = downPercent + "%";
-        loanSplitTag.innerText = (100 - downPercent) + "% Loan / " + downPercent + "% Self";
+    // Property Price Prediction Engine
+    function runPricePrediction() {
+        const loc = document.getElementById('localitySelect');
+        baseRate = parseFloat(loc.options[loc.selectedIndex].getAttribute('data-rate'));
+        const locName = loc.options[loc.selectedIndex].text.split(' ')[0];
+        const area = parseFloat(document.getElementById('areaInput').value) || 1200;
+        const bhk = parseInt(document.getElementById('bhkSelect').value);
+        const downPercent = parseFloat(document.getElementById('downpaymentInput').value) || 20;
 
         // Valuation Formula
-        const premiumMult = 1 + ((bhk - 2) * 0.06) + ((baths - 1) * 0.03);
-        const totalValue = Math.round(area * baseRate * premiumMult);
+        const bhkMultiplier = 1 + ((bhk - 2) * 0.06);
+        const totalValue = Math.round(area * baseRate * bhkMultiplier);
 
-        // Loan Math (20 Yrs, 8.5% interest)
-        const loanPercent = (100 - downPercent) / 100;
-        const principal = totalValue * loanPercent;
+        // Loan Math (8.5% interest, 20 Years)
+        const loanAmount = totalValue * ((100 - downPercent) / 100);
         const monthlyRate = 8.5 / 12 / 100;
         const months = 240;
-        const emi = Math.round((principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1));
-        const totalInterest = Math.round((emi * months) - principal);
+        const emi = Math.round((loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1));
 
-        // Update Cards
-        totalValueDisplay.innerText = formatINR(totalValue);
-        emiDisplay.innerText = "₹ " + emi.toLocaleString('en-IN');
+        // 5-Year Capital Appreciation (assuming 8.5% compound rate)
+        const fiveYearVal = Math.round(totalValue * Math.pow(1 + 0.085, 5));
 
-        // Projected Growth Trajectory (ECG Line Pulse)
-        const annualRate = baseRate > 12000 ? 0.095 : 0.078;
-        const traj = [
-            Math.round(totalValue / 100000),
-            Math.round(totalValue * Math.pow(1 + annualRate, 2) / 100000),
-            Math.round(totalValue * Math.pow(1 + annualRate, 4) / 100000),
-            Math.round(totalValue * Math.pow(1 + annualRate, 6) / 100000),
-            Math.round(totalValue * Math.pow(1 + annualRate, 8) / 100000),
-            Math.round(totalValue * Math.pow(1 + annualRate, 10) / 100000)
-        ];
-        pulseChart.data.datasets[0].data = traj;
-        pulseChart.update();
-
-        // 5Y Growth display
-        const fiveYearGrowth = Math.round(((Math.pow(1 + annualRate, 5) - 1) * 100));
-        growthDisplay.innerText = "+ " + fiveYearGrowth + "%";
-
-        // Investment Viability Gauge
-        let score = (10 - (totalValue / 30000000) + (baseRate / 2800)).toFixed(1);
-        if (score > 9.6) score = 9.6;
-        if (score < 4.5) score = 4.8;
-        gaugeScore.innerText = score;
-
-        let gaugeColor = '#10b981';
-        let labelText = 'Prime Asset';
-        if (score < 6.5) {
-            gaugeColor = '#f43f5e';
-            labelText = 'High Premium Risk';
-        } else if (score < 8.0) {
-            gaugeColor = '#f59e0b';
-            labelText = 'Moderate Yield';
+        // Format Displays
+        function formatINR(val) {
+            if (val >= 10000000) {
+                return "₹ " + (val / 10000000).toFixed(2) + " Cr";
+            }
+            return "₹ " + (val / 100000).toFixed(2) + " Lac";
         }
-        gaugeScore.style.color = gaugeColor;
-        gaugeLabel.innerText = labelText;
 
-        const scorePercent = Math.round(score * 10);
-        gaugeChartInstance.data.datasets[0].data = [scorePercent, 100 - scorePercent];
-        gaugeChartInstance.data.datasets[0].backgroundColor[0] = gaugeColor;
-        gaugeChartInstance.update();
+        document.getElementById('dispVal').innerText = formatINR(totalValue);
+        document.getElementById('dispEMI').innerText = "₹ " + emi.toLocaleString('en-IN');
+        document.getElementById('disp5Y').innerText = formatINR(fiveYearVal);
 
-        // Financing Split Bar
-        const selfPaid = totalValue * (downPercent / 100);
-        financingChart.data.datasets[0].data = [Math.round(selfPaid / 100000)];
-        financingChart.data.datasets[1].data = [Math.round(principal / 100000)];
-        financingChart.data.datasets[2].data = [Math.round(totalInterest / 100000)];
-        financingChart.update();
+        document.getElementById('locTag').innerText = locName + " Rate / Sqft";
+        document.getElementById('currentRateDisplay').innerText = "₹ " + baseRate.toLocaleString('en-IN');
     }
 
-    // Attach Listeners
-    [areaSlider, bhkSlider, bathSlider, downpaymentSlider].forEach(slider => {
-        slider.addEventListener('input', recalculate);
-    });
-    localitySelect.addEventListener('change', recalculate);
-
-    // Boot
+    // Initialize
     window.onload = () => {
-        initCharts();
-        recalculate();
+        requestAnimationFrame(drawMarketWave);
+        runPricePrediction();
     };
 </script>
 
