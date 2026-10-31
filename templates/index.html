@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropPulse AI — Real Estate Market Valuation & Index Engine</title>
+    <title>PropPulse AI — Real Estate Market Valuation & Database Log</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -27,9 +27,6 @@
 
         body {
             background-color: var(--bg-base);
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.08) 0px, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.06) 0px, transparent 45%);
             color: var(--text-main);
             min-height: 100vh;
             padding: 24px 16px;
@@ -40,7 +37,6 @@
             margin: 0 auto;
         }
 
-        /* Top Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -55,36 +51,17 @@
         .brand-title {
             font-size: 1.35rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
         }
 
         .brand-title span {
             color: var(--accent-cyan);
         }
 
-        .market-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent-green);
-        }
-
-        .live-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-green);
-        }
-
-        /* Layout Grid */
         .workspace-grid {
             display: grid;
             grid-template-columns: 380px 1fr;
             gap: 24px;
+            margin-bottom: 24px;
         }
 
         @media (max-width: 950px) {
@@ -98,7 +75,6 @@
             border: 1px solid var(--border-glow);
             border-radius: 18px;
             padding: 22px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .panel-heading {
@@ -113,7 +89,6 @@
             padding-bottom: 10px;
         }
 
-        /* Form Inputs */
         .form-group {
             margin-bottom: 16px;
         }
@@ -124,7 +99,6 @@
             color: var(--text-muted);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
             margin-bottom: 6px;
         }
 
@@ -140,11 +114,6 @@
             outline: none;
         }
 
-        .form-input:focus, .form-select:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
-        }
-
         .btn-predict {
             width: 100%;
             background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
@@ -156,44 +125,22 @@
             border-radius: 12px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
             box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
-            transition: all 0.2s ease;
-            margin-top: 10px;
         }
 
-        .btn-predict:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
-        }
-
-        /* Canvas Chart Screen */
         .chart-screen {
             background: #060b13;
             border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: 14px;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
             margin-bottom: 20px;
-        }
-
-        /* Financial Grid Background */
-        .chart-screen::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-size: 30px 30px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-            pointer-events: none;
         }
 
         canvas#marketCanvas {
             display: block;
             width: 100%;
-            height: 230px;
+            height: 200px;
         }
 
         .chart-overlay-stats {
@@ -202,24 +149,8 @@
             right: 16px;
             font-family: 'JetBrains Mono', monospace;
             text-align: right;
-            pointer-events: none;
         }
 
-        .ticker-tag {
-            font-size: 0.72rem;
-            color: var(--accent-cyan);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .ticker-rate {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--accent-cyan);
-            line-height: 1.1;
-        }
-
-        /* Metrics Row */
         .metrics-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -244,7 +175,6 @@
             color: var(--text-muted);
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 0.04em;
             margin-bottom: 6px;
         }
 
@@ -253,21 +183,56 @@
             font-weight: 800;
             font-family: 'JetBrains Mono', monospace;
         }
+
+        /* Database History Table */
+        .history-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem;
+            margin-top: 10px;
+        }
+
+        .history-table th {
+            text-align: left;
+            padding: 12px 14px;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .history-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+        }
+
+        .badge-bhk {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-cyan);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Header -->
     <header>
         <div>
             <div class="brand-title">PropPulse <span>AI</span></div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">Bangalore Real Estate Market Valuation & Momentum Engine</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Real Estate Engine with SQLite Persistence</div>
         </div>
-        <div class="market-status">
-            <div class="live-dot"></div>
-            <span>LIVE MARKET FEED</span>
-        </div>
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--accent-green);">● DB: CONNECTED</div>
     </header>
 
     <div class="workspace-grid">
@@ -275,33 +240,32 @@
         <div class="glass-panel">
             <div class="panel-heading">
                 <span>Property Inputs</span>
-                <span style="font-size: 0.75rem; color: var(--accent-cyan); font-family: monospace;">ML REGRESSION</span>
             </div>
 
             <div class="form-group">
                 <label>Micro-Market Locality</label>
                 <select id="localitySelect" class="form-select">
-                    <option value="Whitefield" data-rate="9800" selected>Whitefield (Tech Corridor)</option>
-                    <option value="Indiranagar" data-rate="16500">Indiranagar (Prime Commercial)</option>
-                    <option value="Koramangala" data-rate="15200">Koramangala (Startup Hub)</option>
-                    <option value="HSR Layout" data-rate="12800">HSR Layout (Residential Hub)</option>
-                    <option value="Electronic City" data-rate="6400">Electronic City (IT Belt)</option>
-                    <option value="Hebbal" data-rate="11200">Hebbal (Airport Corridor)</option>
+                    <option value="Whitefield" data-rate="9800" selected>Whitefield</option>
+                    <option value="Indiranagar" data-rate="16500">Indiranagar</option>
+                    <option value="Koramangala" data-rate="15200">Koramangala</option>
+                    <option value="HSR Layout" data-rate="12800">HSR Layout</option>
+                    <option value="Electronic City" data-rate="6400">Electronic City</option>
+                    <option value="Hebbal" data-rate="11200">Hebbal</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Super Built-Up Area (Sq. Ft)</label>
+                <label>Area (Sq. Ft)</label>
                 <input type="number" id="areaInput" class="form-input" value="1450" min="400" max="10000" step="50">
             </div>
 
             <div class="form-group">
                 <label>Bedrooms (BHK)</label>
                 <select id="bhkSelect" class="form-select">
-                    <option value="1">1 BHK Apartment</option>
-                    <option value="2">2 BHK Residential</option>
-                    <option value="3" selected>3 BHK Luxury Flat</option>
-                    <option value="4">4 BHK Penthouse / Villa</option>
+                    <option value="1">1 BHK</option>
+                    <option value="2">2 BHK</option>
+                    <option value="3" selected>3 BHK</option>
+                    <option value="4">4 BHK</option>
                 </select>
             </div>
 
@@ -310,137 +274,177 @@
                 <input type="number" id="downpaymentInput" class="form-input" value="20" min="10" max="60" step="5">
             </div>
 
-            <button class="btn-predict" onclick="runPricePrediction()">
-                <span>⚡ Calculate Market Valuation</span>
+            <button class="btn-predict" onclick="submitPrediction()">
+                <span>⚡ Calculate & Save To DB</span>
             </button>
         </div>
 
-        <!-- Right Side: Live Price Trend Canvas & Outputs -->
+        <!-- Output Readouts -->
         <div class="glass-panel">
             <div class="panel-heading">
-                <span>Real-Time Market Rate Volatility & Price Momentum</span>
-                <span style="color: var(--accent-cyan); font-family: monospace; font-size: 0.8rem;">FEED: BENGALURU-RES</span>
+                <span>Live Valuation Result</span>
+                <span id="saveStatus" style="font-size: 0.75rem; color: var(--accent-green); font-family: monospace;"></span>
             </div>
 
-            <!-- Canvas Screen -->
             <div class="chart-screen">
                 <canvas id="marketCanvas"></canvas>
                 <div class="chart-overlay-stats">
-                    <div class="ticker-tag" id="locTag">Whitefield Avg / Sqft</div>
-                    <div class="ticker-rate" id="currentRateDisplay">₹ 9,800</div>
-                    <div style="font-size: 0.72rem; color: var(--accent-green);" id="trendTag">▲ +12.4% Annualized Momentum</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);" id="locTag">Whitefield Avg / Sqft</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);" id="currentRateDisplay">₹ 9,800</div>
                 </div>
             </div>
 
-            <!-- 3 Core Outputs -->
             <div class="metrics-row">
                 <div class="metric-card">
-                    <div class="metric-title">Estimated Market Value</div>
+                    <div class="metric-title">Estimated Value</div>
                     <div class="metric-val" id="dispVal" style="color: var(--accent-cyan);">₹ 1.49 Cr</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-title">Monthly EMI (8.5% / 20Y)</div>
+                    <div class="metric-title">Monthly EMI</div>
                     <div class="metric-val" id="dispEMI" style="color: var(--accent-amber);">₹ 94,800</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-title">Projected 5Y Value</div>
+                    <div class="metric-title">5-Year Valuation</div>
                     <div class="metric-val" id="disp5Y" style="color: var(--accent-green);">₹ 2.22 Cr</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Database History Section -->
+    <div class="history-panel">
+        <div class="panel-heading">
+            <span>Recent Valuations History (SQLite DB Log)</span>
+            <span style="font-size: 0.8rem; color: var(--accent-cyan); font-family: monospace;">REAL-TIME SYNC</span>
+        </div>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Locality</th>
+                    <th>Area (Sq. Ft)</th>
+                    <th>BHK</th>
+                    <th>Valuation (Price)</th>
+                    <th>Monthly EMI</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody">
+                <!-- Dynamically Populated from DB -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
+    // Canvas animation
     const canvas = document.getElementById('marketCanvas');
     const ctx = canvas.getContext('2d');
-
     function resizeCanvas() {
         canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = 230;
+        canvas.height = 200;
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Live Financial Ticker State
     let x = 0;
-    const step = 2;
-    let baseRate = 9800;
-    let currentY = 115;
-    let targetY = 115;
+    let currentY = 100;
+    let targetY = 100;
 
-    // Continuous Financial Trend Wave
-    function drawMarketWave() {
-        // Erase ahead (radar/scanner wipe effect)
+    function drawWave() {
         ctx.fillStyle = '#060b13';
-        ctx.fillRect(x + 1, 0, 14, canvas.height);
+        ctx.fillRect(x + 1, 0, 12, canvas.height);
 
-        // Random financial fluctuation simulation
-        if (Math.random() < 0.08) {
-            targetY = 115 + (Math.random() * 80 - 40);
-        }
+        if (Math.random() < 0.08) targetY = 100 + (Math.random() * 60 - 30);
         currentY += (targetY - currentY) * 0.1;
 
-        // Draw Line Segment
         ctx.beginPath();
         ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 2.5;
-        ctx.shadowColor = '#38bdf8';
-        ctx.shadowBlur = 8;
+        ctx.lineWidth = 2;
         ctx.moveTo(x, currentY);
-        ctx.lineTo(x + step, currentY);
+        ctx.lineTo(x + 2, currentY);
         ctx.stroke();
 
-        x += step;
-        if (x >= canvas.width) {
-            x = 0;
-        }
-
-        requestAnimationFrame(drawMarketWave);
+        x += 2;
+        if (x >= canvas.width) x = 0;
+        requestAnimationFrame(drawWave);
     }
+    requestAnimationFrame(drawWave);
 
-    // Property Price Prediction Engine
-    function runPricePrediction() {
-        const loc = document.getElementById('localitySelect');
-        baseRate = parseFloat(loc.options[loc.selectedIndex].getAttribute('data-rate'));
-        const locName = loc.options[loc.selectedIndex].text.split(' ')[0];
-        const area = parseFloat(document.getElementById('areaInput').value) || 1200;
-        const bhk = parseInt(document.getElementById('bhkSelect').value);
-        const downPercent = parseFloat(document.getElementById('downpaymentInput').value) || 20;
+    // Fetch and render history from database
+    async function loadHistory() {
+        try {
+            const res = await fetch('/history');
+            const data = await res.json();
+            const body = document.getElementById('historyBody');
+            body.innerHTML = '';
 
-        // Valuation Formula
-        const bhkMultiplier = 1 + ((bhk - 2) * 0.06);
-        const totalValue = Math.round(area * baseRate * bhkMultiplier);
-
-        // Loan Math (8.5% interest, 20 Years)
-        const loanAmount = totalValue * ((100 - downPercent) / 100);
-        const monthlyRate = 8.5 / 12 / 100;
-        const months = 240;
-        const emi = Math.round((loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1));
-
-        // 5-Year Capital Appreciation (assuming 8.5% compound rate)
-        const fiveYearVal = Math.round(totalValue * Math.pow(1 + 0.085, 5));
-
-        // Format Displays
-        function formatINR(val) {
-            if (val >= 10000000) {
-                return "₹ " + (val / 10000000).toFixed(2) + " Cr";
+            if (data.length === 0) {
+                body.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #64748b;">No search records found in database yet.</td></tr>';
+                return;
             }
-            return "₹ " + (val / 100000).toFixed(2) + " Lac";
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="color: #94a3b8;">${item.time}</td>
+                    <td><strong>${item.locality}</strong></td>
+                    <td>${item.area} sq.ft</td>
+                    <td><span class="badge-bhk">${item.bhk} BHK</span></td>
+                    <td style="color: var(--accent-cyan); font-weight: 700;">${item.price}</td>
+                    <td style="color: var(--accent-amber);">${item.emi}</td>
+                `;
+                body.appendChild(tr);
+            });
+        } catch (e) {
+            console.error("Error loading DB history:", e);
         }
-
-        document.getElementById('dispVal').innerText = formatINR(totalValue);
-        document.getElementById('dispEMI').innerText = "₹ " + emi.toLocaleString('en-IN');
-        document.getElementById('disp5Y').innerText = formatINR(fiveYearVal);
-
-        document.getElementById('locTag').innerText = locName + " Rate / Sqft";
-        document.getElementById('currentRateDisplay').innerText = "₹ " + baseRate.toLocaleString('en-IN');
     }
 
-    // Initialize
+    // Submit prediction to Flask Backend
+    async function submitPrediction() {
+        const locSelect = document.getElementById('localitySelect');
+        const locality = locSelect.value;
+        const rate = locSelect.options[locSelect.selectedIndex].getAttribute('data-rate');
+        const area = document.getElementById('areaInput').value;
+        const bhk = document.getElementById('bhkSelect').value;
+        const downPayment = document.getElementById('downpaymentInput').value;
+
+        const statusTag = document.getElementById('saveStatus');
+        statusTag.innerText = "Saving to DB...";
+
+        try {
+            const res = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    locality: locality,
+                    rate: rate,
+                    area: area,
+                    bhk: bhk,
+                    down_payment: downPayment
+                })
+            });
+
+            const result = await res.json();
+            document.getElementById('dispVal').innerText = result.price;
+            document.getElementById('dispEMI').innerText = result.emi;
+            document.getElementById('disp5Y').innerText = result.five_year;
+            document.getElementById('currentRateDisplay').innerText = result.rate;
+            document.getElementById('locTag').innerText = locality + " Avg / Sqft";
+
+            statusTag.innerText = "✓ Saved in SQLite Database";
+            setTimeout(() => { statusTag.innerText = ""; }, 3000);
+
+            // Reload history table immediately
+            loadHistory();
+        } catch (err) {
+            console.error("Prediction error:", err);
+            statusTag.innerText = "Error saving";
+        }
+    }
+
     window.onload = () => {
-        requestAnimationFrame(drawMarketWave);
-        runPricePrediction();
+        loadHistory();
     };
 </script>
 
